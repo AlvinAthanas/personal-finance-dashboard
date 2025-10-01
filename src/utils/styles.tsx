@@ -27,3 +27,35 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
         },
     },
 }));
+
+
+export const Main = styled("main", {
+    shouldForwardProp: (prop) => prop !== "open" && prop !== "drawerWidth",
+})<{ open?: boolean; drawerWidth: number }>(({ theme, open, drawerWidth }) => ({
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto",
+    transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: `calc(100% - ${open ? drawerWidth : 0}px)`,
+    marginLeft: open ? 0 : 0, // no negative margin needed
+    [theme.breakpoints.down("md")]: {
+        width: "100%",
+        position: "relative",
+        zIndex: theme.zIndex.appBar - 1,
+    },
+}));
+
+
+export const UserProfile = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(2, 1.5),
+    gap: theme.spacing(1.5),
+    background: alpha(theme.palette.primary.dark, 0.2),
+    margin: theme.spacing(1.5, 1.5, 0),
+    borderRadius: "12px",
+    border: `1px solid ${alpha("#fff", 0.1)}`,
+}));

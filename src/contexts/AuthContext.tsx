@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, type ReactNode } from "react";
 
 interface AuthenticationContextType {
     isAuthenticated: boolean;
@@ -23,6 +23,7 @@ export const AuthenticationProvider: React.FC<{ children: ReactNode }> = ({
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuthentication = (): AuthenticationContextType => {
     const context = useContext(AuthenticationContext);
     if (context === undefined) {

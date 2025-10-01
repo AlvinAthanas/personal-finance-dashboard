@@ -1,62 +1,43 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import SnackbarAlert from '../Reusables/SnackbarAlert';
+import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, {type AlertProps } from '@mui/material/Alert';
 
-interface SnackbarContextType {
-    showSnackbar: (
-        message: string,
-        severity?: 'success' | 'info' | 'warning' | 'error',
-        duration?: number
-    ) => void;
+interface SnackbarProps {
+    message: string;
+    severity?: 'success' | 'info' | 'warning' | 'error';
+    autoHideDuration?: number;
+    position?: {
+        vertical: 'top' | 'bottom';
+        horizontal: 'left' | 'center' | 'right';
+    };
+    open: boolean;
+    onClose: () => void;
 }
 
-const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined);
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
-export const useSnackbar = () => {
-    const context = useContext(SnackbarContext);
-    if (!context) {
-        throw new Error('useSnackbar must be used within a SnackbarProvider');
-    }
-    return context;
-};
-
-export const SnackbarProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [message, setMessage] = useState('');
-    const [severity, setSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('info');
-    const [autoHideDuration, setAutoHideDuration] = useState(3000);
-    const [isClient, setIsClient] = useState(false);
-
-    React.useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    const showSnackbar = (
-        msg: string,
-        sev: 'success' | 'info' | 'warning' | 'error' = 'info',
-        duration = 3000
-    ) => {
-        setMessage(msg);
-        setSeverity(sev);
-        setAutoHideDuration(duration);
-        setSnackbarOpen(true);
-    };
-
-    const handleClose = () => {
-        setSnackbarOpen(false);
-    };
-
+const SnackbarAlert: React.FC<SnackbarProps> = ({
+                                                    message,
+                                                    severity = 'info',
+                                                    autoHideDuration = 3000,
+                                                    position = { vertical: 'top', horizontal: 'right' },
+                                                    open,
+                                                    onClose,
+                                                }) => {
     return (
-        <SnackbarContext.Provider value={{ showSnackbar }}>
-            {children}
-            {isClient && (
-                <SnackbarAlert
-                    message={message}
-                    severity={severity}
-                    open={snackbarOpen}
-                    onClose={handleClose}
-                    autoHideDuration={autoHideDuration}
-                />
-            )}
-        </SnackbarContext.Provider>
+        <Snackbar
+            anchorOrigin={position}
+            open={open}
+            autoHideDuration={autoHideDuration}
+            onClose={onClose}
+        >
+            <Alert onClose={onClose} severity={severity} sx={{ color: "white !important" }}>
+                {message}
+            </Alert>
+        </Snackbar>
     );
 };
+
+export default SnackbarAlert;

@@ -21,7 +21,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         const fetchUser = async () => {
             try {
                 const response = await fetchData(
-                    `${window.location.protocol}//api.kanban.beytech.co.tz/api/user-data`,
+                    `${window.location.protocol}//http://127.0.0.1:8000//api/user-data`,
                     bearer_token,
                     undefined,
                     setToken,

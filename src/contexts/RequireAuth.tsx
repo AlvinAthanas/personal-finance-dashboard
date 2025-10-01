@@ -1,28 +1,35 @@
 import {Navigate, useLocation} from "react-router-dom";
-import {useEffect} from "react";
-import {useSnackbar} from "../Reusables/SnackbarAlert.tsx";
+import {type JSX, useEffect} from "react";
+import { useSnackbar} from "./SnackbarAlertContext.tsx";
 import {useAuthentication} from "./AuthContext.tsx";
+import {useUser} from "./UserContext.tsx";
 
-export const AuthWrapper = ({ children, requireAuth, isStaffView, redirectTo = "/signin" }: AuthWrapperProps) => {
+export interface AuthWrapperProps {
+    children: JSX.Element;
+    requireAuth?: boolean;
+    redirectTo?: string;
+}
+
+export const AuthWrapper = ({ children, requireAuth, redirectTo = "/signin" }: AuthWrapperProps) => {
     const { isAuthenticated } = useAuthentication();
     const { user } = useUser();
     const { showSnackbar } = useSnackbar();
     const location = useLocation();
 
     useEffect(() => {
-        if (isAuthenticated && isStaffView && user && !user.is_staff) {
+        if (isAuthenticated && user) {
             showSnackbar("Access denied! Redirected to dashboard.", "error");
         }
-    }, [isAuthenticated, isStaffView, user, showSnackbar]);
+    }, [isAuthenticated,user, showSnackbar]);
 
     if (requireAuth === true && !isAuthenticated) {
         return <Navigate to={redirectTo} state={{ from: location }} replace />;
     }
+
     if (requireAuth === false && isAuthenticated) {
         return <Navigate to="/" replace />;
     }
-    if (isAuthenticated && isStaffView && user && !user.is_staff) {
-        return <Navigate to="/" replace />;
-    }
-    return <>{children}</>;
+
+
+    return children;
 };

@@ -7,6 +7,7 @@ import {AuthWrapper} from "./contexts/RequireAuth.tsx";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
+const Dashboard = lazy(() => import("./components/Home/Dashboard.tsx"));
 
 export const routes = createRoutesFromElements(
     <Route path="/" element={<AppWrapper/>}>
@@ -37,6 +38,16 @@ export const routes = createRoutesFromElements(
                 <AuthWrapper requireAuth={false}>
                     <Suspense fallback={<ProgressLoader/>}>
                         <Register/>
+                    </Suspense>
+                </AuthWrapper>
+            }
+        />
+        <Route
+            path="/dashboard"
+            element={
+                <AuthWrapper requireAuth={true}>
+                    <Suspense fallback={<ProgressLoader/>}>
+                        <Dashboard/>
                     </Suspense>
                 </AuthWrapper>
             }

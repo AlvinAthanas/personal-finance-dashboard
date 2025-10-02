@@ -1,4 +1,5 @@
 import axios from "axios";
+import {BASE_URL} from "./BaseUrl.ts";
 
 const fetchData = async (
     url: string,
@@ -29,7 +30,7 @@ const fetchData = async (
             if (error.response.status === 403 || error.response.status === 401) {
                 try {
                     const refreshResponse = await axios.post(
-                        `${window.location.protocol}//api.kanban.beytech.co.tz/api/token/refresh`,
+                        `${BASE_URL}/token-refresh`,
                         {},
                         { withCredentials: true }
                     );

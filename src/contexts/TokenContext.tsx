@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, type ReactNode }
 import fetchData from "../utils/AxioGet";
 import postData from "../utils/AxioPost";
 import {useAuthentication} from "./AuthContext.tsx";
+import {BASE_URL} from "../utils/BaseUrl.ts";
 
 interface TokenContextType {
     token: string;
@@ -20,7 +21,7 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await fetchData(`${window.location.protocol}//api.kanban.beytech.co.tz/api/data`);
+                const response = await fetchData(`${BASE_URL}/csrf`);
                 const data = response.response;
 
                 if (typeof data === "object" && data !== null && "csrf_token" in data) {
@@ -37,7 +38,7 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await postData(`${window.location.protocol}//api.kanban.beytech.co.tz/api/token/refresh`, {}, '');
+                const response = await postData(`${BASE_URL}/token-refresh`, {}, '');
                 const data = response.response;
 
                 if (typeof data === "object" && data !== null && "access_token" in data) {

@@ -1,13 +1,14 @@
 import axios from "axios";
+import {BASE_URL} from "./BaseUrl.ts";
 
 const postData = async (
     url: string,
-    data: never,
+    data: any,
     token: string,
-    bearier_token?: string | null,
+    bearer_token?: string | null,
     setAuthenticated?: (isAuthenticated: boolean) => void,
     setToken?: (token: string) => void,
-    setBearierToken?: (token: string) => void
+    setBearerToken?: (token: string) => void
 ) => {
     try {
         const headers: Record<string, string> = {
@@ -20,8 +21,8 @@ const postData = async (
             headers["Content-Type"] = "application/json";
         }
 
-        if (bearier_token) {
-            headers["Authorization"] = `Bearer ${bearier_token}`;
+        if (bearer_token) {
+            headers["Authorization"] = `Bearer ${bearer_token}`;
         }
 
         const response = await axios.post(url, data, {
@@ -34,7 +35,7 @@ const postData = async (
             csrf_token?: string;
         };
         if (responseData.access) {
-            responseData?.access && setBearierToken?.(responseData.access);
+            responseData?.access && setBearerToken?.(responseData.access);
             setAuthenticated?.(true);
         }
 
@@ -43,7 +44,7 @@ const postData = async (
         if (error.response.status === 403 || error.response.status === 401) {
             try {
                 const refreshResponse = await axios.post(
-                    `${window.location.protocol}//api.kanban.beytech.co.tz/api/token/refresh`,
+                    `${BASE_URL}/token-refresh`,
                     {},
                     { withCredentials: true }
                 );
@@ -54,9 +55,9 @@ const postData = async (
                         csrf_token?: string;
                     };
 
-                if (setToken && setBearierToken && newAccessToken && newCsrfToken) {
+                if (setToken && setBearerToken && newAccessToken && newCsrfToken) {
                     setToken(newCsrfToken);
-                    setBearierToken(newAccessToken);
+                    setBearerToken(newAccessToken);
                     const retryResponse = await axios.post(url, data, {
                         headers: {
                             "X-Requested-With": "XMLHttpRequest",

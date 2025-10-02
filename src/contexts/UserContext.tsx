@@ -2,6 +2,7 @@ import {createContext, type ReactNode, useContext, useEffect, useState} from "re
 import fetchData from "../utils/AxioGet.ts";
 import type {User} from "../utils/Types.ts";
 import {useToken} from "./TokenContext.tsx";
+import {BASE_URL} from "../utils/BaseUrl.ts";
 
 
 interface UserContextType {
@@ -21,7 +22,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         const fetchUser = async () => {
             try {
                 const response = await fetchData(
-                    `${window.location.protocol}//http://127.0.0.1:8000//api/user-data`,
+                    `${BASE_URL}/user-data`,
                     bearer_token,
                     undefined,
                     setToken,

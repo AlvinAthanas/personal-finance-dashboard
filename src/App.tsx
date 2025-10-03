@@ -18,6 +18,7 @@ import {TokenProvider} from "./contexts/TokenContext.tsx";
 import {SnackbarProvider} from "./contexts/SnackbarAlertContext.tsx";
 import {useLocation} from "react-router-dom";
 import {ThemeProvider} from "./contexts/ThemeContext.tsx";
+import {Header} from "./components/Header/Header.tsx";
 
 
 function CategoryIcon() {
@@ -35,8 +36,14 @@ function App() {
     const location = useLocation();
 
 
-    const handleDrawerOpen = () => setOpen(true);
-    const handleDrawerClose = () => setOpen(false);
+    const handleDrawerOpen = () => {
+        setOpen(true)
+        setDrawerWidth(280);
+    };
+    const handleDrawerClose = () => {
+        setOpen(false)
+        setDrawerWidth(0);
+    };
 
     React.useEffect(() => {
         const checkMobile = () => {
@@ -108,15 +115,36 @@ function App() {
     ]
 
     const filteredNavItems = navItems.filter((item) => {
+        console.log("is authenticated?",isAuthenticated);
 
         return true;
     });
-
+    console.log("is authenticated?",isAuthenticated);
     return (
-        <Box sx={{ display: "flex", minHeight: "100vh", m: 0, p: 0 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", m: 0, p: 0 }}>
         <CssBaseline/>
             {isAuthenticated && (
-                <StyledDrawer>
+                <>
+                <Header 
+                    open={open} 
+                    drawerWidth={drawerWidth} 
+                    handleDrawerOpen={handleDrawerOpen}
+                    handleDrawerClose={handleDrawerClose}
+                />
+                <StyledDrawer
+                    variant={isMobile ? "temporary" : "persistent"}
+                    anchor="left"
+                    open={open}
+                    onClose={handleDrawerClose}
+                    sx={{
+                        width: drawerWidth,
+                        flexShrink: 0,
+                        "& .MuiDrawer-paper": {
+                            width: drawerWidth,
+                            boxSizing: "border-box",
+                        },
+                    }}
+                >
                     <UserProfile>
                         <Avatar
                             sx={{
@@ -181,16 +209,18 @@ function App() {
                         ))}
                     </List>
                 </StyledDrawer>
+                </>
             )}
 
-            <Main
-                open={open}
-                drawerWidth={drawerWidth}
-                onClick={isMobile && open ? handleOverlayClick : undefined}
-            >
-                {isMounted ? <Outlet/> : <ProgressLoader/>}
-            </Main>
-
+            <Box sx={{ display: "flex", flex: 1 }}>
+                <Main
+                    open={open}
+                    drawerWidth={drawerWidth}
+                    onClick={isMobile && open ? handleOverlayClick : undefined}
+                >
+                    {isMounted ? <Outlet/> : <ProgressLoader/>}
+                </Main>
+            </Box>
         </Box>
     )
 }

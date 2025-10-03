@@ -1,25 +1,28 @@
-import {alpha, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import {ChevronRight, Link} from "lucide-react";
+import { alpha, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { ChevronRight } from "lucide-react";
+import React from "react";
+import { Link as RouterLink} from "react-router-dom";
+
+
 
 export const NavItem = ({
-                     item,
-                     location,
-                     onClick,
-                 }: {
+                            item,
+                            location,
+                            onClick,
+                        }: {
     item: any;
     location: any;
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }) => {
     const isSelected = location.pathname === item.path;
-    const [loading, setLoading] = React.useState(true);
 
     return (
         <ListItem disablePadding>
             <ListItemButton
-                component={Link}
+                component={RouterLink}
                 to={item.path}
                 selected={isSelected}
-                onClick={onClick} // ✅ safe now
+                onClick={onClick}
                 sx={{
                     borderRadius: "12px",
                     margin: (theme) => theme.spacing(0.5, 1.5),

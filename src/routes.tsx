@@ -8,6 +8,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
 const Dashboard = lazy(() => import("./components/Home/Dashboard.tsx"));
+const PasswdRst = lazy(() => import("./pages/PasswdRst.tsx"));
 
 export const routes = createRoutesFromElements(
     <Route path="/" element={<AppWrapper/>}>
@@ -48,6 +49,17 @@ export const routes = createRoutesFromElements(
                 <AuthWrapper requireAuth={true}>
                     <Suspense fallback={<ProgressLoader/>}>
                         <Dashboard/>
+                    </Suspense>
+                </AuthWrapper>
+            }
+        />
+
+        <Route
+            path="/forgot-password"
+            element={
+                <AuthWrapper requireAuth={false}>
+                    <Suspense fallback={<ProgressLoader/>}>
+                        <PasswdRst/>
                     </Suspense>
                 </AuthWrapper>
             }

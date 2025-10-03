@@ -1,4 +1,5 @@
-import {alpha, Link, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {alpha, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 export const SecondaryNavItem = ({ item, location }: { item: any; location: any }) => {
     const isSelected = location.pathname === item.path;
@@ -6,7 +7,7 @@ export const SecondaryNavItem = ({ item, location }: { item: any; location: any 
     return (
         <ListItem disablePadding>
             <ListItemButton
-                component={Link}
+                component={RouterLink}
                 to={item.path}
                 selected={isSelected}
                 sx={{

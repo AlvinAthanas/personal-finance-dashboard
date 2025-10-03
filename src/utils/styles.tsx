@@ -40,7 +40,7 @@ export const Main = styled("main", {
         duration: theme.transitions.duration.leavingScreen,
     }),
     width: `calc(100% - ${open ? drawerWidth : 0}px)`,
-    marginLeft: open ? 0 : 0, // no negative margin needed
+    marginLeft: open ? drawerWidth : 0, // no negative margin needed
     [theme.breakpoints.down("md")]: {
         width: "100%",
         position: "relative",

@@ -1,12 +1,36 @@
-import { TrendingUp } from "lucide-react";
+import { Box, Typography } from '@mui/material';
+import { TrendingUp } from 'lucide-react';
 
 const ProgressLoader = () => {
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-50 to-emerald-50" style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <div className="flex flex-col items-center gap-6">
+        <Box
+            sx={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 9999,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'linear-gradient(to bottom right, #f8fafc, #d1fae5)',
+                minHeight: '100vh',
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 3,
+                }}
+            >
                 {/* Spinner with Icon */}
-                <div className="relative inline-flex">
-                    <svg className="animate-spin" width="80" height="80" viewBox="0 0 80 80">
+                <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                    <svg
+                        width="80"
+                        height="80"
+                        viewBox="0 0 80 80"
+                        style={{ animation: 'spin 1.5s linear infinite' }}
+                    >
                         <circle
                             cx="40"
                             cy="40"
@@ -29,43 +53,72 @@ const ProgressLoader = () => {
                             strokeDasharray="164.93"
                             strokeDashoffset="82.47"
                             strokeLinecap="round"
-                            style={{ animation: "dash 1.5s ease-in-out infinite" }}
+                            style={{ animation: 'dash 1.5s ease-in-out infinite' }}
                         />
                     </svg>
 
                     {/* Center Icon */}
-                    <div className="absolute inset-0 flex items-center justify-center">
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
                         <TrendingUp
                             size={32}
-                            className="text-green-700"
-                            style={{ animation: "pulse 2s ease-in-out infinite" }}
+                            color="#2e7d32"
+                            style={{ animation: 'pulse 2s ease-in-out infinite' }}
                         />
-                    </div>
-                </div>
+                    </Box>
+                </Box>
 
                 {/* Loading Text */}
-                <p className="text-green-700 font-medium text-base animate-pulse">
+                <Typography
+                    sx={{
+                        color: '#2e7d32',
+                        fontWeight: 500,
+                        fontSize: '1rem',
+                        animation: 'fadeInOut 1.5s ease-in-out infinite',
+                    }}
+                >
                     Loading your dashboard...
-                </p>
+                </Typography>
 
-                {/* Optional bouncing dots */}
-                <div className="flex gap-1.5">
+                {/* Bouncing dots */}
+                <Box sx={{ display: 'flex', gap: 0.75 }}>
                     {[0, 1, 2].map((i) => (
-                        <div
+                        <Box
                             key={i}
-                            className="w-2 h-2 bg-green-600 rounded-full"
-                            style={{
+                            sx={{
+                                width: '8px',
+                                height: '8px',
+                                backgroundColor: '#16a34a',
+                                borderRadius: '50%',
                                 animation: `bounce 1.4s ease-in-out ${i * 0.2}s infinite`,
                             }}
                         />
                     ))}
-                </div>
+                </Box>
 
                 {/* CSS Animations */}
                 <style>{`
+                    @keyframes spin {
+                        from { transform: rotate(0deg); }
+                        to { transform: rotate(360deg); }
+                    }
+
                     @keyframes pulse {
-                        0%, 100% { opacity: 1; transform: scale(1); }
-                        50% { opacity: 0.6; transform: scale(0.95); }
+                        0%, 100% { 
+                            opacity: 1; 
+                            transform: scale(1); 
+                        }
+                        50% { 
+                            opacity: 0.6; 
+                            transform: scale(0.95); 
+                        }
                     }
                     
                     @keyframes dash {
@@ -75,12 +128,21 @@ const ProgressLoader = () => {
                     }
 
                     @keyframes bounce {
-                        0%, 80%, 100% { transform: translateY(0); }
-                        40% { transform: translateY(-8px); }
+                        0%, 80%, 100% { 
+                            transform: translateY(0); 
+                        }
+                        40% { 
+                            transform: translateY(-8px); 
+                        }
+                    }
+
+                    @keyframes fadeInOut {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.5; }
                     }
                 `}</style>
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 

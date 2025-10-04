@@ -7,8 +7,12 @@ import {AuthWrapper} from "./contexts/RequireAuth.tsx";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
-const Dashboard = lazy(() => import("./components/Home/Dashboard.tsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const PasswdRst = lazy(() => import("./pages/PasswdRst.tsx"));
+const Budgets = lazy(()=> import("./pages/Budgets.tsx"));
+const Transactions = lazy(()=> import("./pages/Transactions.tsx"));
+const Categories = lazy(()=>import( "./pages/Categories.tsx"));
+
 
 export const routes = createRoutesFromElements(
     <Route path="/" element={<AppWrapper/>}>
@@ -55,6 +59,35 @@ export const routes = createRoutesFromElements(
         />
 
         <Route
+            path="/categories"
+            element={
+                <AuthWrapper requireAuth={true}>
+                    <Suspense fallback={<ProgressLoader/>}>
+                        <Categories/>
+                    </Suspense>
+                </AuthWrapper>
+            }
+        />
+        <Route
+            path="/budgets"
+            element={
+                <AuthWrapper requireAuth={true}>
+                    <Suspense fallback={<ProgressLoader/>}>
+                        <Budgets/>
+                    </Suspense>
+                </AuthWrapper>
+            }
+        />
+        <Route
+            path="/transactions"
+            element={
+                <AuthWrapper requireAuth={true}>
+                    <Suspense fallback={<ProgressLoader/>}>
+                        <Transactions/>
+                    </Suspense>
+                </AuthWrapper>
+            }
+        />      <Route
             path="/forgot-password"
             element={
                 <AuthWrapper requireAuth={false}>

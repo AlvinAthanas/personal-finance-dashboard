@@ -1,7 +1,7 @@
 import {Box} from "@mui/material";
 import {useAuthentication} from "../contexts/AuthContext.tsx";
 import LandingPage from "../components/Home/LandingPage.tsx";
-import Dashboard from "../components/Home/Dashboard.tsx";
+import Dashboard from "./Dashboard.tsx";
 
 function Home(){
     const { isAuthenticated } = useAuthentication();

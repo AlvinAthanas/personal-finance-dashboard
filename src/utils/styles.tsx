@@ -30,23 +30,25 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 
 export const Main = styled("main", {
-    shouldForwardProp: (prop) => prop !== "open" && prop !== "drawerWidth",
-})<{ open?: boolean; drawerWidth: number }>(({ theme, open, drawerWidth }) => ({
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
-    transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: `calc(100% - ${open ? drawerWidth : 0}px)`,
-    marginLeft: open ? drawerWidth : 0, // no negative margin needed
-    [theme.breakpoints.down("md")]: {
-        width: "100%",
-        position: "relative",
-        zIndex: theme.zIndex.appBar - 1,
-    },
-}));
+    shouldForwardProp: (prop) => prop !== "open" && prop !== "drawerWidth" && prop !== "isMobile",
+})<{ open?: boolean; drawerWidth: number; isMobile?: boolean }>(
+    ({ theme, open, drawerWidth, isMobile }) => ({
+        flexGrow: 1,
+        height: "100vh",
+        overflow: "auto",
+        transition: theme.transitions.create(["margin", "width"], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: `calc(100% - ${open && !isMobile ? drawerWidth : 0}px)`,
+        marginLeft: open && !isMobile ? drawerWidth : 0, // ✅ only shift when open + desktop
+        [theme.breakpoints.down("md")]: {
+            width: "100%",
+            position: "relative",
+            zIndex: theme.zIndex.appBar - 1,
+        },
+    })
+);
 
 
 export const UserProfile = styled("div")(({ theme }) => ({
